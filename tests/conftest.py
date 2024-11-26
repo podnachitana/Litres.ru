@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def set_up():
     print("--START TEST--")
     options = Options()
