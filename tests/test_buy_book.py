@@ -65,3 +65,4 @@ def test_verify_cart_contents(authorized_driver):
     cart = CartPage(driver)
     cart.checking_books()
     cart.checking_prices()
+    cart.delete_books_from_cart()
