@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from base.base_class import Base
+from utilities.logger import Logger
 
 
 class CarsAndSdaPage(Base):
@@ -93,6 +94,7 @@ class CarsAndSdaPage(Base):
 
     # Methods
     def select_sda_book(self):
+        Logger.add_start_step(method="select_sda_book")
         self.get_current_url()
 
         self.click_text_format_checkbox()
@@ -103,8 +105,11 @@ class CarsAndSdaPage(Base):
 
         self.click_sda_book()
         self.assert_url('https://www.litres.ru/book/sergey-moryahin/poehali-vse-chto-nuzhno-znat-nachinauschim-voditelyam-68624554/')
+        Logger.add_end_step(url=self.driver.current_url, method="select_sda_book")
 
     def select_audiobook(self):
+        Logger.add_start_step(method="select_audiobook")
         self.click_audiobooks_link()
         self.get_current_url()
         self.check_word(self.get_audiobooks_title(), 'Аудиокниги')
+        Logger.add_end_step(url=self.driver.current_url, method="select_audiobook")

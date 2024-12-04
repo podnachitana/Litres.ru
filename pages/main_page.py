@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from base.base_class import Base
+from utilities.logger import Logger
 
 
 class MainPage(Base):
@@ -94,6 +95,7 @@ class MainPage(Base):
 
     # Methods
     def authorization(self):
+        Logger.add_start_step(method="authorization")
         self.get_current_url()
         self.click_login_icon()
         self.input_email("tatianaterrible@yandex.ru")
@@ -104,3 +106,4 @@ class MainPage(Base):
         self.check_word(self.get_text_logo_profile(), 'Профиль')
         self.click_catalog_btn()
         self.click_knowledge_and_skills_link()
+        Logger.add_end_step(url=self.driver.current_url, method="authorization")

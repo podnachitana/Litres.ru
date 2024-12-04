@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from base.base_class import Base
+from utilities.logger import Logger
 
 
 class AudiobooksPage(Base):
@@ -78,6 +79,8 @@ class AudiobooksPage(Base):
             print(f"Error while trying to click on audiobook: {e}")
 
     def select_audiobook(self):
+        Logger.add_start_step(method="select_audiobook")
         self.get_current_url()
         self.click_audiobook()
         self.assert_url('https://www.litres.ru/audiobook/vadim-zeland/transerfing-realnosti-stupen-i-ii-iii-iv-v-69461995/')
+        Logger.add_end_step(url=self.driver.current_url, method="select_audiobook")

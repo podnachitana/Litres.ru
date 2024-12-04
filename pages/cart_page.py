@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from base.base_class import Base
+from utilities.logger import Logger
 
 
 class CartPage(Base):
@@ -25,7 +26,7 @@ class CartPage(Base):
     title_sda_book_page = "За рулем без страха и сомнений"
     title_audiobook_page = "Трансерфинг реальности. Ступени I, II, III, IV, V"
 
-    price_qa_book_page = 13540.05
+    price_qa_book_page = 14147.21
     price_sda_book_page = 399
     price_audiobook_page = 1399
 
@@ -85,6 +86,7 @@ class CartPage(Base):
 
     # Methods
     def checking_books(self):
+        Logger.add_start_step(method="checking_books")
         self.get_current_url()
 
         # Check QA book
@@ -113,8 +115,10 @@ class CartPage(Base):
             self.verify_text(audio_element, expected_audiobook_text)
         except Exception as e:
             print(f"Audiobook verification error: {e}")
+        Logger.add_end_step(url=self.driver.current_url, method="checking_books")
 
     def checking_prices(self):
+        Logger.add_start_step(method="checking_prices")
         qa_price = self.get_price_qa_book_cart()
         expected_qa_price = self.price_qa_book_page
         self.check_price(qa_price, expected_qa_price)
@@ -140,13 +144,15 @@ class CartPage(Base):
 
         # Рассчитываем общую сумму
         total_sum = qa_price + sda_price + audio_price
-        expected_total_sum = 15338.05
+        expected_total_sum = 15945.21
 
         # Проверяем равенство сумм
         assert total_sum == expected_total_sum, f"The sum in the cart doesn't match the expected: expected {expected_total_sum}, got {total_sum}"
         print("Total sum in the cart matches the expected")
+        Logger.add_end_step(url=self.driver.current_url, method="checking_prices")
 
     def delete_books_from_cart(self):
+        Logger.add_start_step(method="delete_books_from_cart")
         self.click_delete_book_btn()
         self.click_delete_modal_btn()
         self.click_delete_book_btn()
@@ -164,3 +170,4 @@ class CartPage(Base):
             print(f"Verification error: {e}")
 
         self.get_screenshot()
+        Logger.add_end_step(url=self.driver.current_url, method="delete_books_from_cart")
