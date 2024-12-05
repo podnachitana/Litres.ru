@@ -1,4 +1,5 @@
 import time
+import allure
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -49,10 +50,11 @@ class KnowledgeAndSkillsPage(Base):
 
     # Methods
     def select_comp_book(self):
-        Logger.add_start_step(method="select_comp_book")
-        self.get_current_url()
-        self.click_сomputer_literature_link()
-        self.check_word(self.get_page_header(), 'компьютерная литература')
-        self.click_programming_topic_link()
-        self.check_word(self.get_programming_link_title(), 'программирование')
-        Logger.add_end_step(url=self.driver.current_url, method="select_comp_book")
+        with allure.step("Select CS Book"):
+            Logger.add_start_step(method="select_comp_book")
+            self.get_current_url()
+            self.click_сomputer_literature_link()
+            self.check_word(self.get_page_header(), 'компьютерная литература')
+            self.click_programming_topic_link()
+            self.check_word(self.get_programming_link_title(), 'программирование')
+            Logger.add_end_step(url=self.driver.current_url, method="select_comp_book")

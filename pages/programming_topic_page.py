@@ -1,4 +1,5 @@
 import time
+import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -128,29 +129,31 @@ class ProgrammingTopicPage(Base):
 
     # Methods
     def select_programming_book(self):
-        Logger.add_start_step(method="select_programming_book")
-        self.get_current_url()
+        with allure.step("Select Programming Book"):
+            Logger.add_start_step(method="select_programming_book")
+            self.get_current_url()
 
-        # Шаг 1: Клик на чекбокс "Text Format"
-        self.click_text_format_checkbox()
-        self.check_word(self.get_chips_text(), 'Текст')
+            # Шаг 1: Клик на чекбокс "Text Format"
+            self.click_text_format_checkbox()
+            self.check_word(self.get_chips_text(), 'Текст')
 
-        # Шаг 2: Клик на чекбокс "English Language"
-        self.click_eng_language_checkbox()
-        self.check_word(self.get_chips_english(), 'Английский')
+            # Шаг 2: Клик на чекбокс "English Language"
+            self.click_eng_language_checkbox()
+            self.check_word(self.get_chips_english(), 'Английский')
 
-        # Шаг 3: Клик на переключатель "High Rate"
-        self.click_high_rate_switcher()
-        self.check_word(self.get_chips_high_rate(), 'Высокая оценка')
+            # Шаг 3: Клик на переключатель "High Rate"
+            self.click_high_rate_switcher()
+            self.check_word(self.get_chips_high_rate(), 'Высокая оценка')
 
-        self.click_book_1()
-        self.assert_url('https://www.litres.ru/book/mili-ali/software-testing-concepts-and-operations-33825118/')
-        Logger.add_end_step(url=self.driver.current_url, method="select_programming_book")
+            self.click_book_1()
+            self.assert_url('https://www.litres.ru/book/mili-ali/software-testing-concepts-and-operations-33825118/')
+            Logger.add_end_step(url=self.driver.current_url, method="select_programming_book")
 
     def select_sda_book(self):
-        Logger.add_start_step(method="select_sda_book")
-        self.click_catalog_btn()
-        self.click_cars_and_sda_topic_link()
-        self.get_current_url()
-        self.check_word(self.get_cars_and_sda_title(), 'автомобили и ПДД')
-        Logger.add_end_step(url=self.driver.current_url, method="select_sda_book")
+        with allure.step("Select SDA Book"):
+            Logger.add_start_step(method="select_sda_book")
+            self.click_catalog_btn()
+            self.click_cars_and_sda_topic_link()
+            self.get_current_url()
+            self.check_word(self.get_cars_and_sda_title(), 'автомобили и ПДД')
+            Logger.add_end_step(url=self.driver.current_url, method="select_sda_book")

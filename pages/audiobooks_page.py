@@ -1,4 +1,5 @@
 import time
+import allure
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -51,6 +52,7 @@ class AudiobooksPage(Base):
         print("Reached scroll limit. Item not found.")
         return False
 
+    # Getters
     def get_audiobook(self):
         try:
             # Медленный скроллинг, пока не загрузится целевой элемент
@@ -67,7 +69,7 @@ class AudiobooksPage(Base):
         except Exception as e:
             print(f"Error while searching for a book: {e}")
             raise
-
+    # Actions
     def click_audiobook(self):
         try:
             element = self.get_audiobook()
@@ -77,10 +79,11 @@ class AudiobooksPage(Base):
             print("Click to audiobook was successful.")
         except Exception as e:
             print(f"Error while trying to click on audiobook: {e}")
-
+    # Methods
     def select_audiobook(self):
-        Logger.add_start_step(method="select_audiobook")
-        self.get_current_url()
-        self.click_audiobook()
-        self.assert_url('https://www.litres.ru/audiobook/vadim-zeland/transerfing-realnosti-stupen-i-ii-iii-iv-v-69461995/')
-        Logger.add_end_step(url=self.driver.current_url, method="select_audiobook")
+        with allure.step("Select Audiobook"):
+            Logger.add_start_step(method="select_audiobook")
+            self.get_current_url()
+            self.click_audiobook()
+            self.assert_url('https://www.litres.ru/audiobook/vadim-zeland/transerfing-realnosti-stupen-i-ii-iii-iv-v-69461995/')
+            Logger.add_end_step(url=self.driver.current_url, method="select_audiobook")

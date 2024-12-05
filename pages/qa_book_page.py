@@ -1,4 +1,5 @@
 import time
+import allure
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -49,9 +50,10 @@ class QaBookPage(Base):
         Logger.add_end_step(url=self.driver.current_url, method="switch_to_first_tab")
 
     def add_to_cart(self):
-        Logger.add_start_step(method="add_to_cart")
-        self.get_current_url()
-        self.click_add_to_cart_btn()
-        self.click_close_modal_window_btn()
-        self.switch_to_first_tab()
-        Logger.add_end_step(url=self.driver.current_url, method="add_to_cart")
+        with allure.step("Add QA Book to cart"):
+            Logger.add_start_step(method="add_to_cart")
+            self.get_current_url()
+            self.click_add_to_cart_btn()
+            self.click_close_modal_window_btn()
+            self.switch_to_first_tab()
+            Logger.add_end_step(url=self.driver.current_url, method="add_to_cart")

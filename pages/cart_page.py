@@ -1,4 +1,5 @@
 import time
+import allure
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -86,88 +87,91 @@ class CartPage(Base):
 
     # Methods
     def checking_books(self):
-        Logger.add_start_step(method="checking_books")
-        self.get_current_url()
+        with allure.step("Check books titles"):
+            Logger.add_start_step(method="checking_books")
+            self.get_current_url()
 
-        # Check QA book
-        qa_element = self.get_title_qa_book_cart()
-        expected_qa_book_text = self.title_qa_book_page
+            # Check QA book
+            qa_element = self.get_title_qa_book_cart()
+            expected_qa_book_text = self.title_qa_book_page
 
-        try:
-            self.verify_text(qa_element, expected_qa_book_text)
-        except Exception as e:
-            print(f"QA book verification error: {e}")
+            try:
+                self.verify_text(qa_element, expected_qa_book_text)
+            except Exception as e:
+                print(f"QA book verification error: {e}")
 
-        # Check SDA book
-        sda_element = self.get_title_sda_book_cart()
-        expected_sda_book_text = self.title_sda_book_page
+            # Check SDA book
+            sda_element = self.get_title_sda_book_cart()
+            expected_sda_book_text = self.title_sda_book_page
 
-        try:
-            self.verify_text(sda_element, expected_sda_book_text)
-        except Exception as e:
-            print(f"SDA book verification error: {e}")
+            try:
+                self.verify_text(sda_element, expected_sda_book_text)
+            except Exception as e:
+                print(f"SDA book verification error: {e}")
 
-        # Check Audiobook
-        audio_element = self.get_title_audiobook_cart()
-        expected_audiobook_text = self.title_audiobook_page
+            # Check Audiobook
+            audio_element = self.get_title_audiobook_cart()
+            expected_audiobook_text = self.title_audiobook_page
 
-        try:
-            self.verify_text(audio_element, expected_audiobook_text)
-        except Exception as e:
-            print(f"Audiobook verification error: {e}")
-        Logger.add_end_step(url=self.driver.current_url, method="checking_books")
+            try:
+                self.verify_text(audio_element, expected_audiobook_text)
+            except Exception as e:
+                print(f"Audiobook verification error: {e}")
+            Logger.add_end_step(url=self.driver.current_url, method="checking_books")
 
     def checking_prices(self):
-        Logger.add_start_step(method="checking_prices")
-        qa_price = self.get_price_qa_book_cart()
-        expected_qa_price = self.price_qa_book_page
-        self.check_price(qa_price, expected_qa_price)
+        with allure.step("Check book prices"):
+            Logger.add_start_step(method="checking_prices")
+            qa_price = self.get_price_qa_book_cart()
+            expected_qa_price = self.price_qa_book_page
+            self.check_price(qa_price, expected_qa_price)
 
-        sda_price = self.get_price_sda_book_cart()
-        expected_sda_price = self.price_sda_book_page
-        self.check_price(sda_price, expected_sda_price)
+            sda_price = self.get_price_sda_book_cart()
+            expected_sda_price = self.price_sda_book_page
+            self.check_price(sda_price, expected_sda_price)
 
-        audio_price = self.get_price_audiobook_cart()
-        expected_audio_price = self.price_audiobook_page
-        self.check_price(audio_price, expected_audio_price)
+            audio_price = self.get_price_audiobook_cart()
+            expected_audio_price = self.price_audiobook_page
+            self.check_price(audio_price, expected_audio_price)
 
-        qa_price_text = qa_price.text.replace('₽', '').replace(' ', '').replace(',', '.').strip()
-        sda_price_text = sda_price.text.replace('₽', '').replace(' ', '').replace(',', '.').strip()
-        audio_price_text = audio_price.text.replace('₽', '').replace(' ', '').replace(',', '.').strip()
+            qa_price_text = qa_price.text.replace('₽', '').replace(' ', '').replace(',', '.').strip()
+            sda_price_text = sda_price.text.replace('₽', '').replace(' ', '').replace(',', '.').strip()
+            audio_price_text = audio_price.text.replace('₽', '').replace(' ', '').replace(',', '.').strip()
 
-        try:
-            qa_price = float(qa_price_text)
-            sda_price = float(sda_price_text)
-            audio_price = float(audio_price_text)
-        except ValueError as e:
-            raise ValueError(f"Could not convert one of the lines to a number: {e}")
+            try:
+                qa_price = float(qa_price_text)
+                sda_price = float(sda_price_text)
+                audio_price = float(audio_price_text)
+            except ValueError as e:
+                raise ValueError(f"Could not convert one of the lines to a number: {e}")
 
-        # Рассчитываем общую сумму
-        total_sum = qa_price + sda_price + audio_price
-        expected_total_sum = 15945.21
+            # Рассчитываем общую сумму
+            total_sum = qa_price + sda_price + audio_price
+            expected_total_sum = 15945.21
 
-        # Проверяем равенство сумм
-        assert total_sum == expected_total_sum, f"The sum in the cart doesn't match the expected: expected {expected_total_sum}, got {total_sum}"
-        print("Total sum in the cart matches the expected")
-        Logger.add_end_step(url=self.driver.current_url, method="checking_prices")
+            # Проверяем равенство сумм
+            assert total_sum == expected_total_sum, f"The sum in the cart doesn't match the expected: expected {expected_total_sum}, got {total_sum}"
+            print("Total sum in the cart matches the expected")
+            Logger.add_end_step(url=self.driver.current_url, method="checking_prices")
 
     def delete_books_from_cart(self):
-        Logger.add_start_step(method="delete_books_from_cart")
-        self.click_delete_book_btn()
-        self.click_delete_modal_btn()
-        self.click_delete_book_btn()
-        self.click_delete_modal_btn()
-        self.click_delete_book_btn()
-        self.click_delete_modal_btn()
+        with allure.step("Delete books from cart"):
+            Logger.add_start_step(method="delete_books_from_cart")
+            self.click_delete_book_btn()
+            self.click_delete_modal_btn()
+            self.click_delete_book_btn()
+            self.click_delete_modal_btn()
+            self.click_delete_book_btn()
+            self.click_delete_modal_btn()
 
-        title_element = self.get_title_cart_is_empty()
-        expected_title = "Корзина пуста"
+            title_element = self.get_title_cart_is_empty()
+            expected_title = "Корзина пуста"
 
-        try:
-            self.verify_text(title_element, expected_title)
-            print("Cart is empty")
-        except Exception as e:
-            print(f"Verification error: {e}")
+            try:
+                self.verify_text(title_element, expected_title)
+                print("Cart is empty")
+            except Exception as e:
+                print(f"Verification error: {e}")
 
-        self.get_screenshot()
-        Logger.add_end_step(url=self.driver.current_url, method="delete_books_from_cart")
+            self.get_screenshot()
+            Logger.add_end_step(url=self.driver.current_url, method="delete_books_from_cart")
